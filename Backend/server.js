@@ -10,6 +10,8 @@ const path = require('path');
 const db = require('./database/db');
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/auth');
+const announcementRoutes = require('./routes/announcements');
+const hackathonRoutes = require('./routes/hackathons');
 
 const app = express();
 
@@ -65,6 +67,8 @@ app.get('/api/db-check', async (req, res) => {
 });
 
 app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/hackathons', hackathonRoutes);
+app.use('/api/hackathons/:hackathonId/announcements', announcementRoutes);
 
 app.use((req, res) => {
     res.status(404).json({
