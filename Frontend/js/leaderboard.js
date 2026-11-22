@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (hackathon.results_published) {
         resultsPublishedBadge.innerHTML = '<span class="badge badge-success" style="font-size:12px; padding:4px 10px;">Official Results Published</span>';
         if (organiserActions) organiserActions.style.display = 'none';
+        checkCertificateEligibility();
       } else {
         resultsPublishedBadge.innerHTML = '<span class="badge badge-warning" style="font-size:12px; padding:4px 10px;">Evaluation Ongoing (Unofficial)</span>';
         if (canPublish && organiserActions) {
@@ -171,6 +172,44 @@ document.addEventListener('DOMContentLoaded', () => {
         </tr>
       `;
     }).join('');
+  }
+
+  // Check Certificate Eligibility
+  async function checkCertificateEligibility() {
+    if (!getToken()) return;
+    try {
+      const data = await apiFetch(`/api/hackathons/${hackathonId}/certificates/info`);
+      if (data && data.eligible) {
+        const certBanner = document.getElementById('cert-banner');
+        const btnViewCert = document.getElementById('btn-view-certificate');
+        if (certBanner && btnViewCert) {
+          btnViewCert.href = `certificate.html?hackathonId=${hackathonId}`;
+          certBanner.style.display = 'flex';
+        }
+      }
+    } catch (_) {
+      // User may not be participant or eligible yet
+    }
+  }
+
+  // Socket.io Real-Time Updates
+  if (typeof io !== 'undefined') {
+    try {
+      const socket = io(typeof API_URL !== 'undefined' ? API_URL : undefined);
+      socket.emit('join_hackathon', { hackathonId });
+
+      socket.on('leaderboard_updated', () => {
+        showToast('Live Update: Judge scores updated rankings.', 'info');
+        loadLeaderboard();
+      });
+
+      socket.on('results_published', () => {
+        showToast('Official Results Published! Certificates are now unlocked.', 'success');
+        loadLeaderboard();
+      });
+    } catch (e) {
+      console.warn('Real-time connection skipped:', e);
+    }
   }
 
   // Publish Results

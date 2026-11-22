@@ -177,7 +177,7 @@ exports.getMyTeamForHackathon = async (req, res, next) => {
     const [memRows] = await db.query(
       `SELECT tm.team_id, tm.checkin_code, tm.checked_in, tm.checked_in_at,
               t.name AS team_name, t.invite_code, t.leader_id, t.created_at,
-              h.title AS hackathon_title, h.max_team_size, ${STATUS_SQL} AS hackathon_status
+              h.title AS hackathon_title, h.max_team_size, h.results_published, ${STATUS_SQL} AS hackathon_status
        FROM team_members tm
        JOIN teams t ON tm.team_id = t.id
        JOIN hackathons h ON t.hackathon_id = h.id
@@ -239,7 +239,7 @@ exports.getMyTeams = async (req, res, next) => {
 
     const [rows] = await db.query(
       `SELECT t.id, t.name, t.invite_code, t.leader_id, t.created_at,
-              h.id AS hackathon_id, h.title AS hackathon_title, h.start_date, h.end_date,
+              h.id AS hackathon_id, h.title AS hackathon_title, h.start_date, h.end_date, h.results_published,
               ${STATUS_SQL} AS hackathon_status,
               (SELECT COUNT(*) FROM team_members tm2 WHERE tm2.team_id = t.id) AS member_count,
               (t.leader_id = ?) AS is_leader,

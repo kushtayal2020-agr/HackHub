@@ -67,6 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
               <a href="checkin.html?hackathonId=${t.hackathon_id}" class="btn btn-secondary btn-sm" title="View Check-in QR pass">
                 QR Pass
               </a>
+              ${t.results_published ? `
+                <a href="certificate.html?hackathonId=${t.hackathon_id}" class="btn btn-secondary btn-sm" style="background: #fef3c7; color: #b45309; border-color: #f59e0b;" title="View & Download Certificate">
+                  Certificate
+                </a>
+              ` : ''}
             </div>
           </div>
         `;

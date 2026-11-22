@@ -94,6 +94,7 @@ app.use('/api', require('./routes/teams'));
 app.use('/api', require('./routes/checkin'));
 app.use('/api', require('./routes/submissions'));
 app.use('/api', require('./routes/judging'));
+app.use('/api', require('./routes/certificates'));
 app.use('/api/profile', require('./routes/profile'));
 app.use('/api/notifications', require('./routes/notifications'));
 
@@ -105,8 +106,29 @@ app.use((req, res) => {
 
 app.use(errorHandler);
 
+const http = require('http');
+const { Server } = require('socket.io');
+
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+    }
+});
+app.set('io', io);
+
+io.on('connection', (socket) => {
+    socket.on('join_hackathon', (id) => {
+        socket.join(`hackathon_${id}`);
+    });
+    socket.on('leave_hackathon', (id) => {
+        socket.leave(`hackathon_${id}`);
+    });
+});
+
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`HackHub API running on port ${PORT}`);
+server.listen(PORT, () => {
+    console.log(`HackHub API and WebSocket running on port ${PORT}`);
 });
