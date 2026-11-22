@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audit Logs - HackHub Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin: 20px 0 20px;">
+      <div>
+        <h1 style="margin-bottom:6px;">System Audit &amp; Compliance Trail</h1>
+        <p class="muted" style="margin-bottom:0;">Immutable log of security events, administrative decisions, and auth history.</p>
+      </div>
+      <a href="admin-dashboard.html" class="btn btn-secondary btn-sm">&larr; Return to Dashboard</a>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <div class="filter-search-wrap">
+        <svg class="filter-search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="audit-search" placeholder="Search audit logs by actor, details, or IP...">
+      </div>
+      <select id="audit-action-filter" aria-label="Filter by action type">
+        <option value="">All Action Types</option>
+        <option value="LOGIN">LOGIN</option>
+        <option value="LOGIN_FAILED">LOGIN_FAILED</option>
+        <option value="REGISTER">REGISTER</option>
+        <option value="USER_APPROVED">USER_APPROVED</option>
+        <option value="USER_REJECTED">USER_REJECTED</option>
+        <option value="USER_BLOCKED">USER_BLOCKED</option>
+        <option value="USER_UNBLOCKED">USER_UNBLOCKED</option>
+        <option value="USER_ROLE_CHANGED">USER_ROLE_CHANGED</option>
+        <option value="USER_DELETED">USER_DELETED</option>
+        <option value="HACKATHON_CREATED">HACKATHON_CREATED</option>
+        <option value="HACKATHON_UPDATED">HACKATHON_UPDATED</option>
+        <option value="HACKATHON_DELETED">HACKATHON_DELETED</option>
+        <option value="HACKATHON_APPROVED">HACKATHON_APPROVED</option>
+        <option value="HACKATHON_REJECTED">HACKATHON_REJECTED</option>
+        <option value="JUDGE_ASSIGNED">JUDGE_ASSIGNED</option>
+        <option value="RESULTS_PUBLISHED">RESULTS_PUBLISHED</option>
+      </select>
+    </div>
+
+    <!-- Audit Logs Table -->
+    <div class="table-wrap">
+      <table class="data" id="audit-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Action</th>
+            <th>Details</th>
+            <th>Actor</th>
+            <th>IP Address</th>
+          </tr>
+        </thead>
+        <tbody id="audit-rows"></tbody>
+      </table>
+    </div>
+
+    <div id="audit-empty" class="alert alert-info text-center pad" hidden>No audit log records found matching your filters.</div>
+    <div id="audit-pager" class="pagination"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub Admin &bull; <a href="admin-dashboard.html">Dashboard</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/notifications-bell.js"></script>
+  <script src="js/admin-audit.js"></script>
+</body>
+</html>

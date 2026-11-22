@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hackathon Approvals - HackHub Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin: 20px 0 20px;">
+      <div>
+        <h1 style="margin-bottom:6px;">Hackathon Approvals &amp; Moderation</h1>
+        <p class="muted" style="margin-bottom:0;">Review event proposals, approve public listings, and audit organiser activity.</p>
+      </div>
+      <a href="admin-dashboard.html" class="btn btn-secondary btn-sm">&larr; Return to Dashboard</a>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <div class="filter-search-wrap">
+        <svg class="filter-search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="hack-search" placeholder="Search hackathons by title or keywords...">
+      </div>
+      <select id="hack-status-filter" aria-label="Filter by approval status">
+        <option value="">All Statuses</option>
+        <option value="pending" selected>Pending Approval</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+
+    <!-- Hackathons Table -->
+    <div class="table-wrap">
+      <table class="data" id="hacks-table">
+        <thead>
+          <tr>
+            <th>Hackathon</th>
+            <th>Organiser</th>
+            <th>Event Timeline</th>
+            <th>Teams</th>
+            <th>Approval</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="hack-rows"></tbody>
+      </table>
+    </div>
+
+    <div id="hacks-empty" class="alert alert-info text-center pad" hidden>No hackathons found in this queue.</div>
+    <div id="hacks-pager" class="pagination"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub Admin &bull; <a href="admin-dashboard.html">Dashboard</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/notifications-bell.js"></script>
+  <script src="js/admin-hackathons.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Management - HackHub Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin: 20px 0 20px;">
+      <div>
+        <h1 style="margin-bottom:6px;">Platform Users Management</h1>
+        <p class="muted" style="margin-bottom:0;">Search, moderate, change roles, and approve organiser accounts.</p>
+      </div>
+      <a href="admin-dashboard.html" class="btn btn-secondary btn-sm">&larr; Return to Dashboard</a>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <div class="filter-search-wrap">
+        <svg class="filter-search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="user-search" placeholder="Search by name or email address...">
+      </div>
+      <select id="user-role-filter" aria-label="Filter by role">
+        <option value="">All Roles</option>
+        <option value="participant">Participant</option>
+        <option value="organiser">Organiser</option>
+        <option value="judge">Judge</option>
+        <option value="admin">Admin</option>
+      </select>
+      <select id="user-status-filter" aria-label="Filter by status">
+        <option value="">All Statuses</option>
+        <option value="active">Active</option>
+        <option value="pending">Pending Approval (Organisers)</option>
+        <option value="blocked">Blocked</option>
+      </select>
+    </div>
+
+    <!-- Users Table -->
+    <div class="table-wrap">
+      <table class="data" id="users-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Role</th>
+            <th>College / Institution</th>
+            <th>Account Status</th>
+            <th>Registered</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="user-rows"></tbody>
+      </table>
+    </div>
+
+    <div id="users-empty" class="alert alert-info text-center pad" hidden>No users found matching your filters.</div>
+    <div id="users-pager" class="pagination"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub Admin &bull; <a href="admin-dashboard.html">Dashboard</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/notifications-bell.js"></script>
+  <script src="js/admin-users.js"></script>
+</body>
+</html>
