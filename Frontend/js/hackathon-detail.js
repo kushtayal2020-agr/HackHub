@@ -100,6 +100,7 @@ async function renderActionBar(h) {
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
               <a href="team.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Manage Team</a>
               <a href="checkin.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm">Check-in Pass (QR)</a>
+              <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-outline btn-sm">Leaderboard</a>
             </div>
           </div>
         `;
@@ -110,9 +111,12 @@ async function renderActionBar(h) {
               <b style="font-size:16px; color:var(--brand-primary); display:block; margin-bottom:2px;">Registration is Live!</b>
               <p class="muted" style="margin:0; font-size:13px;">Create a new team as Team Leader, or enter a teammate's invite code to join.</p>
             </div>
-            <a href="team.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">
-              Register / Form Team
-            </a>
+            <div style="display:flex; gap:8px;">
+              <a href="team.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">
+                Register / Form Team
+              </a>
+              <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-outline btn-sm">Leaderboard</a>
+            </div>
           </div>
         `;
       }
@@ -122,15 +126,33 @@ async function renderActionBar(h) {
     return;
   }
 
+  if (user.role === 'judge') {
+    actionBar.innerHTML = `
+      <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:16px 20px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <b style="font-size:15px; display:block; margin-bottom:2px;">Judge Evaluation Studio</b>
+          <p class="muted" style="margin:0; font-size:13px;">Review and evaluate submitted projects using official weighted rubrics.</p>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <a href="judging.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Score Submissions</a>
+          <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm">Leaderboard</a>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   if (user.role === 'organiser' || user.role === 'admin') {
     actionBar.innerHTML = `
       <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:16px 20px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div>
           <b style="font-size:15px; display:block; margin-bottom:2px;">Organiser Management Tools</b>
-          <p class="muted" style="margin:0; font-size:13px;">Manage participant check-in attendance and review event submissions.</p>
+          <p class="muted" style="margin:0; font-size:13px;">Manage participant check-in attendance, review submissions, and publish results.</p>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <a href="checkin.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Check-in Terminal</a>
+          <a href="hackathon-submissions.html?id=${h.id}" class="btn btn-secondary btn-sm">Submissions</a>
+          <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-outline btn-sm">Leaderboard</a>
           ${isOwner(h) ? `<a href="create-hackathon.html?id=${h.id}" class="btn btn-secondary btn-sm">Edit Hackathon</a>` : ''}
         </div>
       </div>
