@@ -1,6 +1,6 @@
 # HackHub - Hackathon and Event Management Platform
 
-HackHub is a Full Stack PBL college project (Hackathon and Event Management Platform). It enables hackathon organisers to host events, manage rubrics, and publish live results; participants can discover hackathons, form teams, check in via venue QR codes, submit projects, and download verifiable certificates; judges can score submissions based on weighted criteria.
+HackHub is a Full-Stack Hackathon and Developer Event Management Platform. It enables hackathon organisers to host events, manage rubrics, and publish live results; participants can discover hackathons, form teams, check in via venue QR codes, submit projects, and download verifiable certificates; judges can score submissions based on weighted criteria.
 
 ## Tech Stack
 - **Frontend**: Plain HTML5, CSS3 (Custom Responsive Design System with Light/Dark theme), and Vanilla JavaScript (ES6+). No frameworks or build tools.
@@ -45,7 +45,7 @@ HackHub/
 │   ├── 404.html             # Error page
 │   └── config.js            # Frontend API URL configuration
 ├── docs/                    # Architecture diagrams, test cases, Postman collection & report
-│   ├── PROJECT_REPORT.md    # Comprehensive academic PBL project report
+│   ├── PROJECT_REPORT.md    # Comprehensive Enterprise Engineering project report
 │   ├── API_DOCUMENTATION.md # REST API endpoint specifications
 │   ├── TEST_CASES.md        # Full verification & test matrix
 │   ├── DEPLOYMENT_GUIDE.md  # Production PM2, Nginx & Docker deployment guide

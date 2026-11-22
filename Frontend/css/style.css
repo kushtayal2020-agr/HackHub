@@ -5,6 +5,7 @@
    ========================================================================== */
 
 :root {
+  color-scheme: light;
   /* Core Brand Primary Accents */
   --brand-primary: #2563eb;       /* Royal Blue */
   --brand-primary-hover: #1d4ed8;
@@ -113,6 +114,7 @@
    Dark Theme Overrides (Distinct Midnight Slate Theme)
    ========================================================================== */
 [data-theme='dark'] {
+  color-scheme: dark;
   --brand-primary: #3b82f6;
   --brand-primary-hover: #60a5fa;
   --brand-primary-subtle: #172554;
@@ -207,6 +209,10 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -216,6 +222,9 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.2s ease, color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 a {
@@ -247,10 +256,11 @@ p { margin-top: 0; margin-bottom: 1rem; color: var(--text-secondary); }
   max-width: 1180px;
   margin: 0 auto;
   padding: 24px 20px;
+  width: 100%;
 }
 
-main.container {
-  min-height: calc(100vh - 120px);
+main, main.container {
+  flex: 1 0 auto;
 }
 
 .grid-2 {
@@ -495,13 +505,13 @@ nav#navbar {
 }
 
 .btn-secondary {
-  background-color: var(--bg-surface);
+  background-color: var(--bg-subtle);
   color: var(--text-main);
   border: 1px solid var(--border-dark);
 }
 
 .btn-secondary:hover {
-  background-color: var(--bg-subtle);
+  background-color: var(--bg-muted);
   border-color: var(--brand-primary);
   color: var(--brand-primary);
 }
@@ -588,12 +598,22 @@ form.stack label, .form-group label {
   color: var(--text-main);
 }
 
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"],
+input[type="search"],
+input[type="datetime-local"],
+select,
+textarea,
 form.stack input,
 form.stack select,
 form.stack textarea,
 .form-group input,
 .form-group select,
 .form-group textarea {
+  box-sizing: border-box;
   width: 100%;
   padding: 10px 14px;
   border: 1px solid var(--border-dark);
@@ -606,6 +626,26 @@ form.stack textarea,
   transition: var(--transition);
 }
 
+select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 38px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+select option {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  padding: 10px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
 form.stack input:focus,
 form.stack select:focus,
 form.stack textarea:focus,
@@ -613,7 +653,7 @@ form.stack textarea:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
 }
 
 /* ==========================================================================
@@ -1167,8 +1207,10 @@ table.data tbody tr:hover {
   background-color: #0f172a;
   color: #94a3b8;
   border-top: 1px solid #1e293b;
-  padding: 56px 0 28px;
-  margin-top: 72px;
+  padding: 48px 0 24px;
+  margin-top: auto;
+  flex-shrink: 0;
+  width: 100%;
 }
 
 .footer-top {

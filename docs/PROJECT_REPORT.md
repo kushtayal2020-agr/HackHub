@@ -1,5 +1,5 @@
-# HackHub: Full-Stack Hackathon & PBL Event Management Platform
-**Academic Project Report — Project-Based Learning (PBL)**  
+# HackHub: Full-Stack Hackathon & Innovation Event Management Platform
+**Platform Architecture & Engineering Report**  
 *Department of Computer Science & Engineering*  
 **Date:** November 2026  
 **Repository:** [github.com/kushtayal2020-agr/HackHub](https://github.com/kushtayal2020-agr/HackHub)
@@ -7,7 +7,7 @@
 ---
 
 ## 1. Executive Summary & Abstract
-Collegiate hackathons and Project-Based Learning (PBL) exhibitions are critical catalysts for student software innovation, collaboration, and technical skill development. However, managing these events typically relies on disparate spreadsheets, fragmented Google Forms, ad-hoc chat channels, and manual grading sheets. This manual approach introduces high administrative friction, scoring discrepancies, registration chaos, and delayed results.
+Collegiate hackathons and Developer Innovation exhibitions are critical catalysts for student software innovation, collaboration, and technical skill development. However, managing these events typically relies on disparate spreadsheets, fragmented Google Forms, ad-hoc chat channels, and manual grading sheets. This manual approach introduces high administrative friction, scoring discrepancies, registration chaos, and delayed results.
 
 **HackHub** is an enterprise-grade, full-stack web application purpose-built to streamline the end-to-end hackathon lifecycle. Engineered with a pure HTML5/CSS3/Vanilla JavaScript frontend and a high-performance Node.js/Express/MySQL backend, HackHub delivers:
 - **Role-Based Access Control (RBAC):** Distinct workflows for System Administrators, Hackathon Organisers, Panel Judges, and Student Participants.

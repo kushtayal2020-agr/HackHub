@@ -54,7 +54,7 @@ async function generateCertificateStream({
   doc.fontSize(9)
     .font('Helvetica')
     .fillColor('#64748b')
-    .text('NATIONAL STUDENT PROJECT-BASED LEARNING (PBL) INITIATIVE', 0, 68, { align: 'center', characterSpacing: 1 });
+    .text('NATIONAL STUDENT INNOVATION & MERIT INITIATIVE', 0, 68, { align: 'center', characterSpacing: 1 });
 
   // 3. Certificate Type Title
   let certType = 'CERTIFICATE OF PARTICIPATION';

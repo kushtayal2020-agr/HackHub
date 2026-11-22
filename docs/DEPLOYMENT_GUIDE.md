@@ -1,5 +1,5 @@
 # HackHub Production Deployment & Operations Guide
-**Platform:** HackHub Full-Stack PBL Platform  
+**Platform:** HackHub Full-Stack Innovation Platform  
 **Target Environments:** Linux (Ubuntu 22.04 LTS / Debian 12), Windows Server, Docker Containers
 
 ---
