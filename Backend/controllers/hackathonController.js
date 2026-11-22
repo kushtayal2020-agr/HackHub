@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const db = require('../database/db');
 
 const STATUS_SQL = `(CASE
@@ -238,7 +240,7 @@ exports.updateHackathon = async (req, res, next) => {
 exports.deleteHackathon = async (req, res, next) => {
   try {
     const [rows] = await db.query(
-      'SELECT organiser_id FROM hackathons WHERE id = ?',
+      'SELECT organiser_id, banner_path FROM hackathons WHERE id = ?',
       [req.params.id]
     );
     if (rows.length === 0) {
@@ -252,7 +254,65 @@ exports.deleteHackathon = async (req, res, next) => {
     }
 
     await db.query('DELETE FROM hackathons WHERE id = ?', [req.params.id]);
+    if (rows[0].banner_path) {
+      fs.unlink(path.join(__dirname, '..', rows[0].banner_path), (err) => {
+        if (err && err.code !== 'ENOENT') console.error('Unable to remove banner:', err.message);
+      });
+    }
     res.status(200).json({ message: 'Hackathon deleted.' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const csvCell = (value) => {
+  let text = value === null || value === undefined ? '' : String(value);
+  if (/^[=+\-@\t\r]/.test(text)) text = "'" + text;
+  return `"${text.replace(/"/g, '""')}"`;
+};
+
+exports.exportParticipants = async (req, res, next) => {
+  try {
+    const [hackathons] = await db.query(
+      'SELECT id, organiser_id FROM hackathons WHERE id = ?',
+      [req.params.id]
+    );
+    const hackathon = hackathons[0];
+    if (!hackathon) return res.status(404).json({ message: 'Hackathon not found.' });
+    if (
+      Number(hackathon.organiser_id) !== Number(req.user.id)
+      && req.user.role !== 'admin'
+    ) {
+      return res.status(403).json({ message: 'You can only export your own hackathons.' });
+    }
+
+    const [rows] = await db.query(
+      `SELECT u.name, u.email, u.college, t.name AS team_name, tm.checked_in, tm.joined_at
+       FROM team_members tm
+       JOIN teams t ON t.id = tm.team_id
+       JOIN users u ON u.id = tm.user_id
+       WHERE tm.hackathon_id = ?
+       ORDER BY t.name, u.name`,
+      [req.params.id]
+    );
+    const lines = [[
+      'Name', 'Email', 'College', 'Team', 'Checked In', 'Joined At',
+    ].map(csvCell).join(',')];
+    rows.forEach((row) => lines.push([
+      row.name,
+      row.email,
+      row.college,
+      row.team_name,
+      row.checked_in ? 'Yes' : 'No',
+      row.joined_at,
+    ].map(csvCell).join(',')));
+
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="hackathon-${hackathon.id}-participants.csv"`
+    );
+    res.status(200).send(`\uFEFF${lines.join('\r\n')}`);
   } catch (err) {
     next(err);
   }

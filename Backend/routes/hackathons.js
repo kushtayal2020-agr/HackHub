@@ -1,5 +1,7 @@
 const express = require('express');
+const fs = require('fs');
 const { body, param } = require('express-validator');
+const { validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/role');
 const validate = require('../middleware/validate');
@@ -41,6 +43,15 @@ const rules = [
     .withMessage('Team size must be between 1 and 10.'),
 ];
 
+function discardUploadOnError(req, res, next) {
+  if (req.file && !validationResult(req).isEmpty()) {
+    fs.unlink(req.file.path, (err) => {
+      if (err && err.code !== 'ENOENT') console.error('Unable to remove invalid banner:', err.message);
+    });
+  }
+  next();
+}
+
 router.get('/', controller.getAllHackathons);
 router.get('/themes', controller.getThemes);
 router.get('/mine', auth, authorize('organiser'), controller.getMyHackathons);
@@ -59,6 +70,7 @@ router.post(
   authorize('organiser'),
   uploadBanner('banner'),
   rules,
+  discardUploadOnError,
   validate,
   controller.createHackathon
 );
@@ -69,6 +81,7 @@ router.put(
   idRule,
   uploadBanner('banner'),
   rules,
+  discardUploadOnError,
   validate,
   controller.updateHackathon
 );
@@ -79,6 +92,14 @@ router.delete(
   idRule,
   validate,
   controller.deleteHackathon
+);
+router.get(
+  '/:id/participants/export',
+  auth,
+  authorize('organiser', 'admin'),
+  idRule,
+  validate,
+  controller.exportParticipants
 );
 
 module.exports = router;

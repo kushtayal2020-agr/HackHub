@@ -68,7 +68,8 @@ app.get('/api/db-check', async (req, res) => {
 
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/hackathons', hackathonRoutes);
-app.use('/api/hackathons/:hackathonId/announcements', announcementRoutes);
+app.use('/api', announcementRoutes);
+app.use('/api/notifications', require('./routes/notifications'));
 
 app.use((req, res) => {
     res.status(404).json({

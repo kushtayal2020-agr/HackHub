@@ -1,0 +1,6 @@
+:root { font-family: Arial, sans-serif; color: #0f172a; background: #fff; }
+body { margin: 0; }
+nav { background: #1a3c6e; color: #fff; padding: 14px 16px; }
+nav a { color: #fff; margin-right: 18px; text-decoration: none; }
+main { min-height: calc(100vh - 52px); }
+h1 { color: #1a3c6e; }
