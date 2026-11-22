@@ -1,4 +1,36 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Hackathons - HackHub</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/hackathon.css"></head><body>
-<nav id="navbar"><a href="hackathons.html">HackHub</a><a href="my-hackathons.html">My hackathons</a></nav>
-<main class="container"><h1>Hackathons</h1><div class="filter-bar"><input id="search" placeholder="Search by title or description"><select id="theme"><option value="">All themes</option></select><select id="status"><option value="">All status</option><option value="upcoming">Upcoming</option><option value="live">Live</option><option value="completed">Completed</option></select></div><div id="list" class="card-grid"></div><p id="empty" class="muted" hidden>No hackathons found.</p><div id="pagination" class="pagination"></div></main>
-<script src="config.js"></script><script src="js/hh-utils.js"></script><script src="js/notifications-bell.js"></script><script src="js/hackathons.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hackathons - HackHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <h1>Hackathons</h1>
+    <div class="filter-bar">
+      <input id="search" placeholder="Search by title or description">
+      <select id="theme"><option value="">All themes</option></select>
+      <select id="status">
+        <option value="">All status</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="live">Live</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+    <div id="list" class="card-grid"></div>
+    <p id="empty" class="muted" hidden>No hackathons found.</p>
+    <div id="pagination" class="pagination"></div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/notifications-bell.js"></script>
+  <script src="js/hackathons.js"></script>
+</body>
+</html>
