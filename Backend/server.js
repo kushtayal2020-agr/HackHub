@@ -87,6 +87,7 @@ app.get('/api/db-check', async (req, res) => {
 });
 
 app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/admin', require('./routes/admin'));
 app.use('/api/hackathons', hackathonRoutes);
 app.use('/api', announcementRoutes);
 app.use('/api/notifications', require('./routes/notifications'));

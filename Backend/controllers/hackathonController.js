@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const db = require('../database/db');
+const { logAction, ACTIONS } = require('../utils/audit');
 
 const STATUS_SQL = `(CASE
   WHEN NOW() < h.start_date THEN 'upcoming'
@@ -59,6 +60,8 @@ exports.createHackathon = async (req, res, next) => {
         maxTeamSize || 4,
       ]
     );
+
+    logAction(req, ACTIONS.HACKATHON_CREATED, `ID: ${result.insertId}, Title: ${title.trim()}`);
 
     res.status(201).json({
       message: 'Hackathon created. It will appear after admin approval.',
@@ -231,6 +234,7 @@ exports.updateHackathon = async (req, res, next) => {
         req.params.id,
       ]
     );
+    logAction(req, ACTIONS.HACKATHON_UPDATED, `ID: ${req.params.id}, Title: ${title.trim()}`);
     res.status(200).json({ message: 'Hackathon updated.' });
   } catch (err) {
     next(err);
@@ -254,6 +258,7 @@ exports.deleteHackathon = async (req, res, next) => {
     }
 
     await db.query('DELETE FROM hackathons WHERE id = ?', [req.params.id]);
+    logAction(req, ACTIONS.HACKATHON_DELETED, `ID: ${req.params.id}`);
     if (rows[0].banner_path) {
       fs.unlink(path.join(__dirname, '..', rows[0].banner_path), (err) => {
         if (err && err.code !== 'ENOENT') console.error('Unable to remove banner:', err.message);

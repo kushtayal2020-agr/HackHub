@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard - HackHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin: 20px 0 24px;">
+      <div>
+        <h1 style="margin-bottom:6px;">Administrator Command Center</h1>
+        <p class="muted" style="margin-bottom:0;">Platform analytics, user moderation, and hackathon approval queues.</p>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="admin-users.html" class="btn btn-secondary btn-sm">Manage Users</a>
+        <a href="admin-hackathons.html" class="btn btn-secondary btn-sm">Approval Queue</a>
+        <a href="admin-audit.html" class="btn btn-secondary btn-sm">Audit Trail</a>
+      </div>
+    </div>
+
+    <!-- Stat Metric Cards -->
+    <div class="grid-4" id="stats-grid" style="margin-bottom: 28px;">
+      <div class="card" style="padding: 20px;">
+        <span class="muted" style="font-size:12px; font-weight:700; text-transform:uppercase;">Total Platform Users</span>
+        <h2 style="font-size:2rem; margin:8px 0 4px;" id="stat-total-users">-</h2>
+        <div style="font-size:12px; color:var(--text-muted);" id="stat-users-breakdown">Loading...</div>
+      </div>
+
+      <div class="card" style="padding: 20px;">
+        <span class="muted" style="font-size:12px; font-weight:700; text-transform:uppercase;">Pending Organisers</span>
+        <h2 style="font-size:2rem; margin:8px 0 4px; color:var(--brand-primary);" id="stat-pending-orgs">-</h2>
+        <div style="font-size:12px; color:var(--text-muted);" id="stat-blocked-users">- Blocked accounts</div>
+      </div>
+
+      <div class="card" style="padding: 20px;">
+        <span class="muted" style="font-size:12px; font-weight:700; text-transform:uppercase;">Total Hackathons</span>
+        <h2 style="font-size:2rem; margin:8px 0 4px;" id="stat-total-hacks">-</h2>
+        <div style="font-size:12px; color:var(--text-muted);" id="stat-hacks-breakdown">Loading...</div>
+      </div>
+
+      <div class="card" style="padding: 20px;">
+        <span class="muted" style="font-size:12px; font-weight:700; text-transform:uppercase;">Teams &amp; Submissions</span>
+        <h2 style="font-size:2rem; margin:8px 0 4px; color:#059669;" id="stat-teams-subs">- / -</h2>
+        <div style="font-size:12px; color:var(--text-muted);">Active registrations</div>
+      </div>
+    </div>
+
+    <!-- Analytics Charts -->
+    <div class="grid-3" style="margin-bottom: 32px;">
+      <div class="card" style="padding: 20px;">
+        <h3 style="font-size:1rem; margin-bottom:14px;">Hackathons by Approval Status</h3>
+        <div style="height: 240px; position:relative;">
+          <canvas id="chart-status"></canvas>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 20px;">
+        <h3 style="font-size:1rem; margin-bottom:14px;">Registrations (Last 14 Days)</h3>
+        <div style="height: 240px; position:relative;">
+          <canvas id="chart-registrations"></canvas>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 20px;">
+        <h3 style="font-size:1rem; margin-bottom:14px;">Submissions Per Hackathon</h3>
+        <div style="height: 240px; position:relative;">
+          <canvas id="chart-submissions"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub. Administrator Command Center &bull; <a href="privacy.html">Privacy</a> &bull; <a href="terms.html">Terms</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/notifications-bell.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="js/admin-dashboard.js"></script>
+</body>
+</html>
