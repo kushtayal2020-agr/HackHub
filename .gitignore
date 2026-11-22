@@ -8,3 +8,7 @@ Backend/node_modules/
 
 # Uploaded files
 Backend/uploads/*
+
+# Personal study & viva guides (local only)
+*Viva_Preparation_Guide*
+Backend/scripts/generate-viva-pdf.js
