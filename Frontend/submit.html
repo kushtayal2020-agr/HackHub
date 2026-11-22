@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Submission - HackHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+  <style>
+    .submit-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 32px;
+    }
+    .submit-header {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .file-dropzone {
+      border: 2px dashed var(--border-dark);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+      text-align: center;
+      background: var(--bg-subtle);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .file-dropzone:hover {
+      border-color: var(--brand-primary);
+      background: var(--brand-primary-subtle);
+    }
+    .current-file-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container" style="max-width: 860px;">
+    <div style="margin: 16px 0 12px;">
+      <a href="hackathons.html" class="btn btn-secondary btn-sm" id="back-link">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to hackathons
+      </a>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="text-center pad" style="padding: 60px 0;">
+      <p class="muted">Loading submission details...</p>
+    </div>
+
+    <!-- Error State: Not in team -->
+    <div id="no-team-alert" class="alert alert-error" style="margin: 24px 0;" hidden>
+      <h3 style="margin: 0 0 8px 0;">Team Registration Required</h3>
+      <p style="margin: 0 0 16px 0;">You must be part of a registered team for this hackathon before submitting a project.</p>
+      <a id="btn-goto-team" href="#" class="btn btn-primary btn-sm">Form or Join Team</a>
+    </div>
+
+    <!-- Submission View -->
+    <div id="submission-view" hidden>
+      <!-- Header Bar with Event & Team Info -->
+      <div class="submit-header">
+        <div>
+          <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;" class="muted">Hackathon Project Submission</span>
+          <h2 id="event-title" style="margin: 2px 0 6px 0; font-size: 20px;">Event Title</h2>
+          <p class="muted" style="margin: 0; font-size: 13px;">
+            Submitting as: <b id="team-name" style="color: var(--text-main);">-</b>
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <div id="event-status-badge" style="margin-bottom: 4px;"></div>
+          <div class="muted" style="font-size: 12px;" id="deadline-info">Deadline: -</div>
+        </div>
+      </div>
+
+      <!-- Submission Form Card -->
+      <div class="submit-card">
+        <h2 style="font-size: 18px; margin-top: 0; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);" id="form-heading">
+          Project Submission Details
+        </h2>
+
+        <form id="submission-form" novalidate>
+          <!-- Title -->
+          <div class="form-group">
+            <label for="sub-title">Project Title * (3-200 characters)</label>
+            <input type="text" id="sub-title" required minlength="3" maxlength="200" placeholder="e.g. AI-Powered Campus Transit Assistant">
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="sub-desc">Project Overview &amp; Implementation Details</label>
+            <textarea id="sub-desc" rows="6" placeholder="Describe the problem solved, tech stack used, architecture, and instructions for judges..."></textarea>
+          </div>
+
+          <!-- GitHub Repo URL -->
+          <div class="form-group">
+            <label for="sub-github">
+              GitHub / Code Repository URL *
+            </label>
+            <input type="url" id="sub-github" required placeholder="https://github.com/your-team/your-repo">
+            <small class="muted" style="font-size: 12px; margin-top: 4px; display: block;">Ensure your repository is public or accessible to judges.</small>
+          </div>
+
+          <!-- Live Demo URL -->
+          <div class="form-group">
+            <label for="sub-demo">Live Demo / Video Pitch URL (Optional)</label>
+            <input type="url" id="sub-demo" placeholder="https://your-demo.vercel.app or YouTube pitch link">
+          </div>
+
+          <!-- File Upload (ZIP or PDF) -->
+          <div class="form-group">
+            <label>Project Archive or Presentation File (Optional, max 25 MB)</label>
+            <div class="file-dropzone" id="dropzone-box">
+              <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-primary); margin-bottom: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">Click to select file or drag &amp; drop</div>
+              <div class="muted" style="font-size: 12px;">Supported formats: ZIP archive, PDF documentation (max 25 MB)</div>
+              <input type="file" id="sub-file" accept=".zip,.pdf,application/zip,application/pdf" style="display: none;">
+            </div>
+
+            <div id="file-chosen-info" style="margin-top: 8px; display: none;">
+              <span class="current-file-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                <span id="chosen-file-name">-</span>
+                <button type="button" id="btn-clear-file" style="background: none; border: none; cursor: pointer; color: #ef4444; font-weight: 700; margin-left: 6px;">&times;</button>
+              </span>
+            </div>
+
+            <div id="existing-file-info" style="margin-top: 8px; display: none;">
+              <span class="current-file-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Current uploaded file: </span>
+                <a id="existing-file-link" href="#" target="_blank" style="font-weight: 600; margin-left: 4px;">Download Attachment</a>
+              </span>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px; flex-wrap: wrap; gap: 12px;">
+            <button type="button" id="btn-withdraw" class="btn btn-danger btn-sm" style="display: none;">Withdraw Submission</button>
+            <div style="display: flex; gap: 12px; margin-left: auto;">
+              <a href="#" class="btn btn-secondary" id="btn-cancel">Cancel</a>
+              <button type="submit" id="btn-submit" class="btn btn-primary">Submit Project</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub. College PBL Innovation Platform &bull; <a href="privacy.html">Privacy</a> &bull; <a href="terms.html">Terms</a> &bull; <a href="rules.html">Rules</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/submit.js"></script>
+</body>
+</html>
