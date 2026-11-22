@@ -1,8 +1,9 @@
 /* ==========================================================================
    HackHub Hackathon Components & Interactive Styles
-   Solid professional styling - Zero gradients
+   Solid professional styling - Zero gradients - Pixel-perfect controls
    ========================================================================== */
 
+/* Filter Bar Component */
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
@@ -17,7 +18,7 @@
 }
 
 .filter-search-wrap {
-  flex: 1 1 260px;
+  flex: 1 1 280px;
   position: relative;
   display: flex;
   align-items: center;
@@ -25,25 +26,29 @@
 
 .filter-search-icon {
   position: absolute;
-  left: 12px;
+  left: 14px;
   color: var(--text-muted);
   pointer-events: none;
+  z-index: 2;
 }
 
 .filter-bar input {
   width: 100%;
-  padding: 10px 14px 10px 38px;
+  height: 44px;
+  padding: 0 14px 0 40px;
   border: 1px solid var(--border-dark);
   background-color: var(--input-bg);
   color: var(--text-main);
   border-radius: var(--radius-sm);
   font-size: 14px;
   outline: none;
+  box-sizing: border-box;
   transition: var(--transition);
 }
 
 .filter-bar select {
-  padding: 10px 14px;
+  height: 44px;
+  padding: 0 38px 0 14px;
   border: 1px solid var(--border-dark);
   background-color: var(--input-bg);
   color: var(--text-main);
@@ -51,37 +56,52 @@
   font-size: 14px;
   outline: none;
   cursor: pointer;
-  min-width: 150px;
+  min-width: 160px;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  transition: var(--transition);
+}
+
+[data-theme='dark'] .filter-bar select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+.filter-bar select option {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  padding: 10px;
 }
 
 .filter-bar input:focus, .filter-bar select:focus {
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  outline: none;
 }
 
 /* Banner Image Styles */
 .banner {
   width: 100%;
-  height: 170px;
+  height: 180px;
   object-fit: cover;
   display: block;
   border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-subtle);
 }
 
 .banner-placeholder {
   background-color: #1e293b;
+  background-image: url('../images/banner-ai.jpg');
+  background-size: cover;
+  background-position: center;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.banner-placeholder::after {
-  content: "HACKHUB EVENT";
-  color: #64748b;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
 }
 
 /* Hackathon Cards */
@@ -264,13 +284,13 @@
 }
 
 .bell-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: var(--nav-btn-bg);
+  border: 1px solid var(--nav-btn-border);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  color: #ffffff;
-  width: 36px;
-  height: 36px;
+  color: var(--nav-text);
+  width: 38px;
+  height: 38px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -279,7 +299,8 @@
 }
 
 .bell-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
 }
 
 .bell-count {
