@@ -53,6 +53,15 @@ app.use(
     express.static(path.join(__dirname, 'uploads'))
 );
 
+// Serve static frontend files
+const frontendDir = path.join(__dirname, '..', 'Frontend');
+app.use('/Frontend', express.static(frontendDir));
+app.use(express.static(frontendDir));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(frontendDir, 'index.html'));
+});
+
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 50,
