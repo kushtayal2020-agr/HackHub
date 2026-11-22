@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy - HackHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div class="policy-card">
+      <span class="theme-pill">Legal &amp; Compliance</span>
+      <h1 style="margin-top:12px;">HackHub Privacy Policy</h1>
+      <p class="muted">Last updated: November 2026 &bull; PBL Academic Project Compliance</p>
+
+      <h2>1. Introduction</h2>
+      <p>
+        HackHub ("we", "our", or "the Platform") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you register, host, or participate in college hackathons through HackHub.
+      </p>
+
+      <h2>2. Information We Collect</h2>
+      <p>We collect information that you directly provide to us when using our platform:</p>
+      <ul>
+        <li><strong>Account Information:</strong> Name, university/college email address, hashed passwords (using bcrypt), and chosen role (participant, organiser, judge).</li>
+        <li><strong>Profile Data:</strong> College or institution name, technical skills, GitHub profile URL, and user avatars.</li>
+        <li><strong>Event &amp; Team Data:</strong> Team names, team memberships, invite codes, check-in QR codes, project titles, GitHub repository links, demo URLs, and submitted files.</li>
+        <li><strong>Audit Information:</strong> System action logs, IP addresses, and timestamps to prevent fraudulent registrations and ensure academic integrity.</li>
+      </ul>
+
+      <h2>3. How We Use Your Information</h2>
+      <p>We use collected data strictly for hackathon operation and academic administration:</p>
+      <ul>
+        <li>Authenticating users and issuing JSON Web Tokens (JWT).</li>
+        <li>Enabling participant team formation and check-in validation via encrypted QR codes.</li>
+        <li>Allowing assigned judges to evaluate submissions against weighted criteria.</li>
+        <li>Generating downloadable PDF Certificates of Achievement and Participation.</li>
+        <li>Sending automated transactional notifications and email updates regarding hackathon milestones.</li>
+      </ul>
+
+      <h2>4. Data Security &amp; Encryption</h2>
+      <p>
+        All passwords are encrypted with bcrypt using salt factor 10. Database interactions utilize parameterized SQL queries to prevent injection attacks. Sensitive tokens are stored in secure local browser storage and validated on every API request.
+      </p>
+
+      <h2>5. Contact &amp; Inquiries</h2>
+      <p>
+        For inquiries regarding data privacy or academic verification, please contact the HackHub Project Team via the project repository.
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub. College PBL Project. <a href="index.html">Return to Home</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/notifications-bell.js"></script>
+</body>
+</html>

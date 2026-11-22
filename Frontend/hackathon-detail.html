@@ -1,3 +1,55 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Hackathon - HackHub</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/hackathon.css"></head><body>
-<nav id="navbar"><a href="hackathons.html">HackHub</a><a href="my-hackathons.html">My hackathons</a></nav><main class="container"><a href="hackathons.html">&larr; Back to hackathons</a><div id="hackathon"><p class="muted">Loading...</p></div><section id="announcements"><h2>Announcements</h2><div id="announce-form-wrap" hidden><form id="announce-form" class="stack" novalidate><label>Title<input id="a-title" maxlength="200"></label><label>Message<textarea id="a-message" rows="3" maxlength="2000"></textarea></label><button class="btn" type="submit">Post announcement</button></form></div><div id="announce-list"></div></section></main>
-<script src="config.js"></script><script src="js/hh-utils.js"></script><script src="js/notifications-bell.js"></script><script src="js/hackathon-detail.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hackathon Details - HackHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div style="margin: 16px 0 20px;">
+      <a href="hackathons.html" class="btn btn-secondary btn-sm">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to hackathons
+      </a>
+    </div>
+
+    <div id="hackathon"><p class="muted">Loading hackathon details...</p></div>
+
+    <section id="announcements" style="margin-top: 36px;">
+      <h2>Announcements &amp; Updates</h2>
+      <div id="announce-form-wrap" hidden>
+        <form id="announce-form" class="stack" novalidate style="background:var(--bg-surface); padding:20px; border:1px solid var(--border-color); border-radius:var(--radius-md); margin-bottom:20px;">
+          <h3 style="margin-bottom:6px;">Post an Official Announcement</h3>
+          <div class="form-group">
+            <label for="a-title">Announcement Title</label>
+            <input id="a-title" maxlength="200" placeholder="e.g. Mentor hours schedule released">
+          </div>
+          <div class="form-group">
+            <label for="a-message">Message Content</label>
+            <textarea id="a-message" rows="3" maxlength="2000" placeholder="Provide full details for hackathon participants..."></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit" style="align-self:flex-start;">Publish Announcement</button>
+        </form>
+      </div>
+      <div id="announce-list"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub. College PBL Innovation Platform &bull; <a href="privacy.html">Privacy</a> &bull; <a href="terms.html">Terms</a> &bull; <a href="rules.html">Rules</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/notifications-bell.js"></script>
+  <script src="js/hackathon-detail.js"></script>
+</body>
+</html>

@@ -21,8 +21,28 @@ app.use(helmet({
     }
 }));
 
+app.set('trust proxy', 1);
+
+const allowedOrigins = (process.env.FRONTEND_URL || 'http://127.0.0.1:5500,http://localhost:5500,http://localhost:3000,http://127.0.0.1:3000')
+    .split(',')
+    .map(o => o.trim())
+    .filter(Boolean);
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps, curl, Postman, or local file://)
+        if (!origin || origin === 'null') {
+            return callback(null, true);
+        }
+        if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+            return callback(null, true);
+        }
+        // Allow common local development origins
+        if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+            return callback(null, true);
+        }
+        return callback(null, true);
+    },
     credentials: true
 }));
 
