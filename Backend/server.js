@@ -119,11 +119,13 @@ const io = new Server(server, {
 app.set('io', io);
 
 io.on('connection', (socket) => {
-    socket.on('join_hackathon', (id) => {
-        socket.join(`hackathon_${id}`);
+    socket.on('join_hackathon', (data) => {
+        const id = typeof data === 'object' && data !== null ? (data.hackathonId || data.id) : data;
+        if (id) socket.join(`hackathon_${id}`);
     });
-    socket.on('leave_hackathon', (id) => {
-        socket.leave(`hackathon_${id}`);
+    socket.on('leave_hackathon', (data) => {
+        const id = typeof data === 'object' && data !== null ? (data.hackathonId || data.id) : data;
+        if (id) socket.leave(`hackathon_${id}`);
     });
 });
 
