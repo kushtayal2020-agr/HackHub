@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My Hackathons - HackHub</title>
+  <title>Manage Hackathons - HackHub</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/hackathon.css">
 </head>
@@ -11,24 +11,41 @@
   <nav id="navbar"></nav>
 
   <main class="container">
-    <h1>My Hackathons</h1>
-    <p><a class="btn" href="create-hackathon.html">+ Create hackathon</a></p>
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin: 20px 0 24px;">
+      <div>
+        <h1 style="margin-bottom:6px;">My Organized Hackathons</h1>
+        <p class="muted" style="margin-bottom:0;">Monitor participant registrations, evaluation rubrics, and submission progress.</p>
+      </div>
+      <a class="btn btn-primary" href="create-hackathon.html">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Create New Hackathon
+      </a>
+    </div>
+
     <div class="table-wrap">
       <table class="data">
         <thead>
           <tr>
-            <th>Title</th>
+            <th>Hackathon Title</th>
             <th>Approval</th>
             <th>Status</th>
-            <th>Starts</th>
-            <th>Actions</th>
+            <th>Event Starts</th>
+            <th>Management Actions</th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
       </table>
     </div>
-    <p id="empty" class="muted" hidden>You have not created any hackathon yet.</p>
+    <div id="empty" class="alert alert-info text-center pad" hidden>
+      You have not created any hackathons yet. Click "Create New Hackathon" above to start hosting an event.
+    </div>
   </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub. College PBL Innovation Platform &bull; <a href="privacy.html">Privacy</a> &bull; <a href="terms.html">Terms</a> &bull; <a href="rules.html">Rules</a></p>
+    </div>
+  </footer>
 
   <script src="config.js"></script>
   <script src="js/hh-utils.js"></script>
