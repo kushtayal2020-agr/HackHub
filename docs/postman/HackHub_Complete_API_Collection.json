@@ -1,0 +1,359 @@
+{
+  "info": {
+    "_postman_id": "a98e3b21-4f10-4491-9c3f-7e23a9b1c001",
+    "name": "HackHub Complete API Collection v1.0",
+    "description": "Comprehensive Postman test collection covering all 35+ REST endpoints of the HackHub platform across Authentication, RBAC Admin Governance, Hackathons, Teams, QR Check-in, Project Submissions, Judging Rubrics, Leaderboard, and Verifiable PDF Certificates.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:5000/api", "type": "string" },
+    { "key": "token", "value": "", "type": "string" },
+    { "key": "hackathon_id", "value": "1", "type": "string" },
+    { "key": "team_id", "value": "1", "type": "string" },
+    { "key": "submission_id", "value": "1", "type": "string" },
+    { "key": "cert_id", "value": "CERT-HK1-U7-6813B5C7", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication & Profile",
+      "item": [
+        {
+          "name": "Register Participant",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice Walker\",\n  \"email\": \"participant@hackhub.test\",\n  \"password\": \"Demo@1234\",\n  \"role\": \"participant\",\n  \"college\": \"Apex Tech University\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/register", "host": ["{{base_url}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "Login - Participant",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"participant@hackhub.test\",\n  \"password\": \"Demo@1234\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login - Organiser",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"organiser@hackhub.test\",\n  \"password\": \"Demo@1234\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login - Judge",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"judge@hackhub.test\",\n  \"password\": \"Demo@1234\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login - Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@hackhub.test\",\n  \"password\": \"Demo@1234\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Get Profile Overview",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/profile/me", "host": ["{{base_url}}"], "path": ["profile", "me"] }
+          }
+        },
+        {
+          "name": "Update Profile Details",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice Walker\",\n  \"college\": \"Apex Tech University\",\n  \"skills\": \"React, Node.js, Python, UI/UX, Cloud\",\n  \"github_url\": \"https://github.com/alice-walker\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/profile/me", "host": ["{{base_url}}"], "path": ["profile", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Admin Governance",
+      "item": [
+        {
+          "name": "Get Analytics & Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/admin/stats", "host": ["{{base_url}}"], "path": ["admin", "stats"] }
+          }
+        },
+        {
+          "name": "List Registered Users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/admin/users?limit=20&offset=0", "host": ["{{base_url}}"], "path": ["admin", "users"] }
+          }
+        },
+        {
+          "name": "Approve / Reject Hackathon",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"approval_status\": \"approved\",\n  \"rejection_reason\": \"\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/admin/hackathons/{{hackathon_id}}/approval", "host": ["{{base_url}}"], "path": ["admin", "hackathons", "{{hackathon_id}}", "approval"] }
+          }
+        },
+        {
+          "name": "Get Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/admin/audit-logs?limit=50", "host": ["{{base_url}}"], "path": ["admin", "audit-logs"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Hackathons",
+      "item": [
+        {
+          "name": "List Public Hackathons",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/hackathons", "host": ["{{base_url}}"], "path": ["hackathons"] }
+          }
+        },
+        {
+          "name": "Get Hackathon Detail",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}"] }
+          }
+        },
+        {
+          "name": "Create Hackathon",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"HackHub AI Global Sprint 2026\",\n  \"description\": \"Build groundbreaking agentic workflows and intelligent applications.\",\n  \"registration_start\": \"2026-11-20T00:00:00.000Z\",\n  \"registration_end\": \"2026-11-28T23:59:59.000Z\",\n  \"start_date\": \"2026-11-29T09:00:00.000Z\",\n  \"end_date\": \"2026-12-01T18:00:00.000Z\",\n  \"max_team_size\": 4\n}"
+            },
+            "url": { "raw": "{{base_url}}/hackathons", "host": ["{{base_url}}"], "path": ["hackathons"] }
+          }
+        },
+        {
+          "name": "Publish Official Results",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}/publish-results", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}", "publish-results"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Teams & QR Check-in",
+      "item": [
+        {
+          "name": "Create Team",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Team Apex\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}/teams", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}", "teams"] }
+          }
+        },
+        {
+          "name": "Join Team with Invite Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invite_code\": \"A7F92B\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/teams/join", "host": ["{{base_url}}"], "path": ["teams", "join"] }
+          }
+        },
+        {
+          "name": "Get My Team in Hackathon",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}/my-team", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}", "my-team"] }
+          }
+        },
+        {
+          "name": "Get All My Teams",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/teams/mine", "host": ["{{base_url}}"], "path": ["teams", "mine"] }
+          }
+        },
+        {
+          "name": "Process Attendee QR Check-in",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"chk_sample_code\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}/checkin", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}", "checkin"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Submissions",
+      "item": [
+        {
+          "name": "Submit Project Deliverables",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "title", "value": "AI Campus Navigator 2.0", "type": "text" },
+                { "key": "description", "value": "Autonomous indoor campus navigation system powered by computer vision.", "type": "text" },
+                { "key": "github_url", "value": "https://github.com/hackhub/campus-nav", "type": "text" },
+                { "key": "demo_url", "value": "https://campusnav.demo.io", "type": "text" },
+                { "key": "file", "type": "file", "src": "" }
+              ]
+            },
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}/submissions", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}", "submissions"] }
+          }
+        },
+        {
+          "name": "Get My Submissions",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/submissions/mine", "host": ["{{base_url}}"], "path": ["submissions", "mine"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Judging & Leaderboard",
+      "item": [
+        {
+          "name": "Configure Criteria (100% Total)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"criteria\": [\n    { \"name\": \"Technical Complexity\", \"max_score\": 10, \"weight\": 40 },\n    { \"name\": \"Innovation & Impact\", \"max_score\": 10, \"weight\": 30 },\n    { \"name\": \"UI/UX Design\", \"max_score\": 10, \"weight\": 20 },\n    { \"name\": \"Pitch & Presentation\", \"max_score\": 10, \"weight\": 10 }\n  ]\n}"
+            },
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}/criteria", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}", "criteria"] }
+          }
+        },
+        {
+          "name": "Submit Judge Scores",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scores\": [\n    { \"criterion_id\": 1, \"score\": 9.5 },\n    { \"criterion_id\": 2, \"score\": 9.0 }\n  ],\n  \"comment\": \"Excellent live demo and robust system architecture.\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/submissions/{{submission_id}}/score", "host": ["{{base_url}}"], "path": ["submissions", "{{submission_id}}", "score"] }
+          }
+        },
+        {
+          "name": "Get Live Leaderboard",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}/leaderboard", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}", "leaderboard"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Certificates & Verification",
+      "item": [
+        {
+          "name": "Get Certificate Metadata & Eligibility",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}/certificates/info", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}", "certificates", "info"] }
+          }
+        },
+        {
+          "name": "Download PDF Certificate",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/hackathons/{{hackathon_id}}/certificates/my-certificate", "host": ["{{base_url}}"], "path": ["hackathons", "{{hackathon_id}}", "certificates", "my-certificate"] }
+          }
+        },
+        {
+          "name": "Public Verification of Credential",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/certificates/verify/{{cert_id}}", "host": ["{{base_url}}"], "path": ["certificates", "verify", "{{cert_id}}"] }
+          }
+        }
+      ]
+    }
+  ]
+}
