@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manage Team - HackHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+  <style>
+    .team-header-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .invite-box {
+      background: var(--bg-subtle);
+      border: 1px dashed var(--brand-primary);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .invite-code-display {
+      font-family: monospace;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--brand-primary);
+    }
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 20px 0;
+    }
+    @media (max-width: 768px) {
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .action-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .action-card h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div style="margin: 16px 0 12px;">
+      <a href="hackathons.html" class="btn btn-secondary btn-sm" id="back-link">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to hackathons
+      </a>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-state" class="text-center pad" style="padding: 60px 0;">
+      <p class="muted">Loading team and hackathon details...</p>
+    </div>
+
+    <!-- State 1: No Team Yet (Create or Join) -->
+    <div id="no-team-view" hidden>
+      <div style="margin-bottom: 24px;">
+        <h1 style="margin-bottom: 6px;" id="no-team-hackathon-title">Register for Hackathon</h1>
+        <p class="muted" style="margin-bottom: 0;">Form a new team as Team Leader, or enter an invite code to join an existing team.</p>
+      </div>
+
+      <div class="action-grid">
+        <!-- Create Team Card -->
+        <div class="action-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <div style="background: var(--brand-primary-subtle); color: var(--brand-primary); padding: 8px; border-radius: var(--radius-sm);">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3 style="margin: 0;">Create a New Team</h3>
+          </div>
+          <p class="muted" style="font-size: 14px; margin-bottom: 16px;">
+            You will become the <b>Team Leader</b> and receive a unique invite code to share with your teammates.
+          </p>
+          <form id="create-team-form">
+            <div class="form-group">
+              <label for="create-team-name">Team Name *</label>
+              <input type="text" id="create-team-name" required maxlength="100" placeholder="e.g. Code Voyagers">
+            </div>
+            <button type="submit" id="create-team-btn" class="btn btn-primary" style="width: 100%;">Create Team</button>
+          </form>
+        </div>
+
+        <!-- Join Team Card -->
+        <div class="action-card">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <div style="background: var(--bg-subtle); color: var(--text-main); padding: 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            </div>
+            <h3 style="margin: 0;">Join Existing Team</h3>
+          </div>
+          <p class="muted" style="font-size: 14px; margin-bottom: 16px;">
+            Have an invite code from your team leader? Enter it below to join the roster.
+          </p>
+          <form id="join-team-form">
+            <div class="form-group">
+              <label for="join-team-code">6-Character Invite Code *</label>
+              <input type="text" id="join-team-code" required maxlength="12" placeholder="e.g. A5E0B9" style="font-family: monospace; text-transform: uppercase; letter-spacing: 2px;">
+            </div>
+            <button type="submit" id="join-team-btn" class="btn btn-secondary" style="width: 100%;">Join Team</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- State 2: Has Team View -->
+    <div id="has-team-view" hidden>
+      <div class="team-header-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+              <h1 id="team-name-title" style="margin: 0;">Team Name</h1>
+              <span id="team-role-badge"></span>
+            </div>
+            <p class="muted" style="margin: 0;">
+              Event: <b id="team-hackathon-name">Hackathon Name</b> &bull; Capacity: <span id="team-capacity">1/4 members</span>
+            </p>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a id="btn-qr-pass" class="btn btn-primary btn-sm" href="#">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              My Check-in Pass (QR)
+            </a>
+            <button id="btn-leave-team" class="btn btn-danger btn-sm">Leave Team</button>
+          </div>
+        </div>
+
+        <!-- Invite Code Box -->
+        <div class="invite-box">
+          <div>
+            <span class="muted" style="font-size: 12px; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 2px;">Team Invite Code</span>
+            <span id="invite-code-val" class="invite-code-display">------</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button id="btn-copy-code" class="btn btn-secondary btn-sm">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy Code
+            </button>
+            <button id="btn-regen-code" class="btn btn-outline btn-sm" style="display: none;" title="Regenerate invite code">Regenerate</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Members Roster -->
+      <div style="margin: 28px 0 16px;">
+        <h2 style="font-size: 20px; margin-bottom: 12px;">Team Roster (<span id="member-count-num">0</span>)</h2>
+        <div class="table-wrap">
+          <table class="data">
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Role</th>
+                <th>College</th>
+                <th>Skills</th>
+                <th>Check-in Status</th>
+                <th id="th-actions" style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="members-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Submission Status Card -->
+      <div class="action-card" style="margin-top: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h3 style="margin: 0 0 4px 0;">Project Submission</h3>
+            <p id="sub-status-desc" class="muted" style="margin: 0; font-size: 14px;">No project submitted yet for this hackathon.</p>
+          </div>
+          <a id="btn-submit-project" class="btn btn-secondary btn-sm" href="#">
+            Submit Project
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub. College PBL Innovation Platform &bull; <a href="privacy.html">Privacy</a> &bull; <a href="terms.html">Terms</a> &bull; <a href="rules.html">Rules</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/team.js"></script>
+</body>
+</html>
