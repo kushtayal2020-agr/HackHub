@@ -10,6 +10,16 @@ function requireRole(roles) {
   }
   return user;
 }
+function requireAuth() {
+  const user = getUser();
+  if (!getToken() || !user) {
+    const page = window.location.pathname.split('/').pop() || 'index.html';
+    const next = encodeURIComponent(page + window.location.search);
+    window.location.href = 'login.html?next=' + next;
+    return null;
+  }
+  return user;
+}
 function escapeHtml(value) {
   return String(value === null || value === undefined ? '' : value)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
