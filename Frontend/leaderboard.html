@@ -105,6 +105,20 @@
       </div>
     </div>
 
+    <!-- Certificate Banner for Participants -->
+    <div id="cert-banner" class="alert alert-success" style="display: none; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin: 16px 0 24px;">
+      <div>
+        <strong style="display: flex; align-items: center; gap: 6px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Official Certificates are Ready!
+        </strong>
+        <p class="muted" style="margin: 4px 0 0 0; font-size: 13px;">Your official verifiable certificate for this hackathon is generated and ready to download.</p>
+      </div>
+      <a id="btn-view-certificate" href="#" class="btn btn-primary btn-sm">
+        View &amp; Download Certificate
+      </a>
+    </div>
+
     <!-- Loading -->
     <div id="loading" class="text-center pad" style="padding: 60px 0;">
       <p class="muted">Calculating leaderboard rankings...</p>
@@ -152,6 +166,7 @@
 
   <script src="config.js"></script>
   <script src="js/hh-utils.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="js/navbar.js"></script>
   <script src="js/leaderboard.js"></script>
 </body>

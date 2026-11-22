@@ -31,6 +31,17 @@ exports.createAnnouncement = async (req, res, next) => {
       console.error('[mail] announcement email error:', err.message);
     });
 
+    const io = req.app.get('io');
+    if (io) {
+      io.to(`hackathon_${hackathonId}`).emit('announcement_created', {
+        id: result.insertId,
+        title: title.trim(),
+        message: message.trim(),
+        author: req.user.name || 'Organiser',
+        created_at: new Date(),
+      });
+    }
+
     res.status(201).json({ message: 'Announcement posted.', id: result.insertId });
   } catch (err) {
     next(err);

@@ -435,6 +435,15 @@ exports.submitScores = async (req, res, next) => {
       `Judge ${judgeId} evaluated submission "${sub.title}" (${Math.round(weightedSum)}/100)`
     );
 
+    // Broadcast live leaderboard update via WebSocket
+    const io = req.app.get('io');
+    if (io) {
+      io.to(`hackathon_${sub.hackathon_id}`).emit('leaderboard_updated', {
+        hackathonId: sub.hackathon_id,
+        submissionId,
+      });
+    }
+
     res.status(200).json({
       message: 'Scores submitted successfully!',
       totalWeightedScore: Math.round(weightedSum * 100) / 100,
@@ -565,6 +574,12 @@ exports.publishResults = async (req, res, next) => {
     await db.query('UPDATE hackathons SET results_published = 1 WHERE id = ?', [hackathonId]);
 
     logAction(req, ACTIONS.RESULTS_PUBLISHED, `Results published for hackathon ${hackathonId}`);
+
+    // Broadcast results published event
+    const io = req.app.get('io');
+    if (io) {
+      io.to(`hackathon_${hackathonId}`).emit('results_published', { hackathonId });
+    }
 
     res.status(200).json({
       message: 'Hackathon results published successfully! The leaderboard is now visible to all participants.',
