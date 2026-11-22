@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hackathon Submissions - HackHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div style="margin: 16px 0 12px;">
+      <a href="my-hackathons.html" class="btn btn-secondary btn-sm" id="back-link">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to hackathons
+      </a>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin: 20px 0 20px;">
+      <div>
+        <h1 id="page-title" style="margin-bottom: 6px;">Project Submissions</h1>
+        <p class="muted" style="margin-bottom: 0;">Review submitted projects, source repositories, documentation, and evaluation status.</p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <span class="badge badge-info" id="sub-count-badge" style="font-size: 13px; padding: 6px 14px;">0 Submissions</span>
+      </div>
+    </div>
+
+    <!-- Search filter -->
+    <div style="margin-bottom: 20px;">
+      <input type="text" id="search-input" placeholder="Search by project title, team name, or team leader..." style="max-width: 400px;">
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="text-center pad" style="padding: 60px 0;">
+      <p class="muted">Loading submissions...</p>
+    </div>
+
+    <!-- Empty -->
+    <div id="empty-state" class="alert alert-info text-center pad" style="margin: 24px 0;" hidden>
+      No projects have been submitted yet for this hackathon.
+    </div>
+
+    <!-- Submissions Table -->
+    <div class="table-wrap" id="table-wrap" hidden>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Project Title</th>
+            <th>Team</th>
+            <th>Leader</th>
+            <th>Repository &amp; Demo</th>
+            <th>Documentation</th>
+            <th>Submitted At</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub. College PBL Innovation Platform &bull; <a href="privacy.html">Privacy</a> &bull; <a href="terms.html">Terms</a> &bull; <a href="rules.html">Rules</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/hackathon-submissions.js"></script>
+</body>
+</html>
