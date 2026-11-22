@@ -93,6 +93,7 @@ app.use('/api', announcementRoutes);
 app.use('/api', require('./routes/teams'));
 app.use('/api', require('./routes/checkin'));
 app.use('/api', require('./routes/submissions'));
+app.use('/api', require('./routes/judging'));
 app.use('/api/profile', require('./routes/profile'));
 app.use('/api/notifications', require('./routes/notifications'));
 
