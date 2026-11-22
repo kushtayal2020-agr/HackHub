@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Teams - HackHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+  <style>
+    .teams-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin: 24px 0 48px;
+    }
+    .team-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+    .team-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--brand-primary);
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin: 24px 0 16px;">
+      <div>
+        <h1 style="margin-bottom: 6px;">My Teams &amp; Hackathon Registrations</h1>
+        <p class="muted" style="margin-bottom: 0;">Monitor your hackathon teams, access event QR passes, and collaborate with your teammates.</p>
+      </div>
+      <a href="hackathons.html" class="btn btn-primary btn-sm">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        Browse Hackathons
+      </a>
+    </div>
+
+    <div id="loading" class="text-center pad" style="padding: 50px 0;">
+      <p class="muted">Loading your teams...</p>
+    </div>
+
+    <div id="empty-state" class="alert alert-info text-center pad" style="margin: 32px 0;" hidden>
+      <h3 style="margin: 0 0 8px 0;">No Hackathon Teams Found</h3>
+      <p class="muted" style="margin: 0 0 16px 0;">You haven't formed or joined any teams yet. Explore upcoming hackathons and register with your peers!</p>
+      <a href="hackathons.html" class="btn btn-primary btn-sm">Explore Upcoming Hackathons</a>
+    </div>
+
+    <div id="teams-grid" class="teams-grid" hidden></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub. College PBL Innovation Platform &bull; <a href="privacy.html">Privacy</a> &bull; <a href="terms.html">Terms</a> &bull; <a href="rules.html">Rules</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/my-teams.js"></script>
+</body>
+</html>

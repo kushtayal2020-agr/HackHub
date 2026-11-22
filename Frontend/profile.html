@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Profile - HackHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hackathon.css">
+  <style>
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 28px;
+      margin: 24px 0 48px;
+    }
+    @media (max-width: 860px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .profile-avatar-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .profile-avatar-wrapper {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--bg-subtle);
+      border: 3px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .profile-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-avatar-placeholder {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+    .profile-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .profile-card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .skill-tag {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar"></nav>
+
+  <main class="container">
+    <div style="margin-top: 24px;">
+      <h1 style="margin-bottom: 6px;">My Profile &amp; Account Settings</h1>
+      <p class="muted" style="margin-bottom: 0;">Manage your personal information, skills, college affiliation, and security.</p>
+    </div>
+
+    <div class="profile-grid">
+      <!-- Left: Identity & Avatar Card -->
+      <aside>
+        <div class="profile-avatar-card">
+          <div class="profile-avatar-wrapper" id="avatar-wrapper">
+            <span class="profile-avatar-placeholder" id="avatar-initials">U</span>
+            <img class="profile-avatar-img" id="avatar-img" style="display:none;" alt="Avatar">
+          </div>
+          <h3 id="display-name" style="margin: 0 0 6px 0; font-size: 18px;">Loading...</h3>
+          <p id="display-email" class="muted" style="margin: 0 0 12px 0; font-size: 13px;">user@hackhub.test</p>
+          <div id="role-badge" style="margin-bottom: 16px;"></div>
+
+          <form id="avatar-form" style="width: 100%;">
+            <label class="btn btn-secondary btn-sm" style="display: block; width: 100%; cursor: pointer; text-align: center; margin-bottom: 8px;">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              Choose Photo
+              <input type="file" id="avatar-file" accept="image/png,image/jpeg,image/webp" style="display: none;">
+            </label>
+            <button type="submit" id="avatar-upload-btn" class="btn btn-primary btn-sm" style="width: 100%; display: none;">Upload Avatar</button>
+          </form>
+
+          <div style="width: 100%; border-top: 1px solid var(--border-color); margin-top: 20px; padding-top: 16px; text-align: left; font-size: 13px;">
+            <div style="margin-bottom: 8px;">
+              <span class="muted">College:</span>
+              <b id="side-college" style="float: right;">-</b>
+            </div>
+            <div>
+              <span class="muted">Joined:</span>
+              <b id="side-joined" style="float: right;">-</b>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right: Profile Info & Security -->
+      <div>
+        <!-- Profile Info Card -->
+        <div class="profile-card">
+          <h2>Personal &amp; Academic Details</h2>
+          <form id="profile-form" novalidate>
+            <div class="form-group">
+              <label for="p-name">Full Name *</label>
+              <input type="text" id="p-name" required maxlength="100" placeholder="e.g. Alice Walker">
+            </div>
+
+            <div class="form-group">
+              <label for="p-college">College / University</label>
+              <input type="text" id="p-college" maxlength="150" placeholder="e.g. Apex Institute of Technology">
+            </div>
+
+            <div class="form-group">
+              <label for="p-skills">Skills &amp; Technologies (comma separated)</label>
+              <input type="text" id="p-skills" maxlength="255" placeholder="e.g. React, Node.js, Python, UI/UX, Cloud">
+              <div id="skills-preview" class="tag-container"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="p-github">GitHub Profile URL</label>
+              <input type="url" id="p-github" maxlength="255" placeholder="https://github.com/your-username">
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+              <button type="submit" id="save-profile-btn" class="btn btn-primary">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Security / Password Card -->
+        <div class="profile-card">
+          <h2>Change Password</h2>
+          <form id="password-form" novalidate>
+            <div class="form-group">
+              <label for="current-pwd">Current Password *</label>
+              <input type="password" id="current-pwd" required placeholder="Enter your current password">
+            </div>
+
+            <div class="form-group">
+              <label for="new-pwd">New Password * (min 8 characters, letters &amp; numbers)</label>
+              <input type="password" id="new-pwd" required minlength="8" placeholder="Create a strong new password">
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-pwd">Confirm New Password *</label>
+              <input type="password" id="confirm-pwd" required placeholder="Confirm new password">
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+              <button type="submit" id="change-pwd-btn" class="btn btn-secondary">Update Password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom text-center">
+      <p class="muted">&copy; 2026 HackHub. College PBL Innovation Platform &bull; <a href="privacy.html">Privacy</a> &bull; <a href="terms.html">Terms</a> &bull; <a href="rules.html">Rules</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="js/hh-utils.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>
