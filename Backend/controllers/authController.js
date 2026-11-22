@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../database/db');
+const { logAction, ACTIONS } = require('../utils/audit');
 
 const SALT_ROUNDS = 10;
 
@@ -29,6 +30,8 @@ exports.register = async (req, res, next) => {
       [name, email, hash, role, college || null, isApproved]
     );
 
+    logAction({ user: { id: result.insertId }, ip: req.ip }, ACTIONS.REGISTER, `Role: ${role}, Email: ${email}`);
+
     const message = isApproved
       ? 'Registration successful. Please log in.'
       : 'Registration successful. Your organiser account is waiting for admin approval.';
@@ -47,12 +50,19 @@ exports.login = async (req, res, next) => {
     const user = rows[0];
     // Same message for wrong email and wrong password, so attackers learn nothing
     if (!user || !(await bcrypt.compare(password, user.password_hash))) {
+      logAction(req, ACTIONS.LOGIN_FAILED, `Email: ${email}`);
       return res.status(401).json({ message: 'Invalid email or password.' });
     }
-    if (user.is_blocked) return res.status(403).json({ message: 'Your account is blocked.' });
+    if (user.is_blocked) {
+      logAction(req, ACTIONS.LOGIN_FAILED, `Blocked account: ${email}`);
+      return res.status(403).json({ message: 'Your account is blocked.' });
+    }
     if (!user.is_approved) {
+      logAction(req, ACTIONS.LOGIN_FAILED, `Unapproved account: ${email}`);
       return res.status(403).json({ message: 'Your account is waiting for admin approval.' });
     }
+
+    logAction({ user, ip: req.ip }, ACTIONS.LOGIN, `Login successful: ${email}`);
 
     res.status(200).json({
       message: 'Login successful.',
