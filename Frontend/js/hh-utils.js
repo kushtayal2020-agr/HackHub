@@ -19,7 +19,15 @@ async function apiFetch(path, options = {}) {
   if (token) headers.Authorization = 'Bearer ' + token;
   const opts = Object.assign({}, options, { headers });
   if (opts.body && !(opts.body instanceof FormData)) { headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(opts.body); }
-  const response = await fetch(API_URL + path, opts); let data = null;
+  
+  let response;
+  try {
+    response = await fetch(API_URL + path, opts);
+  } catch (netErr) {
+    throw new Error('Unable to connect to backend server at ' + API_URL);
+  }
+
+  let data = null;
   try { data = await response.json(); } catch (e) { /* non-JSON response */ }
   if (response.status === 401 && token) {
     localStorage.removeItem('token');
