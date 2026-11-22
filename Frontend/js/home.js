@@ -43,7 +43,7 @@
       renderHackathons(hackathons, list);
       if (empty) empty.hidden = true;
     } catch (err) {
-      // If server is not yet running or network fails, render sample upcoming events so UI is never blank
+      // If server is not yet running or network fails, render sample upcoming events
       const sample = getSampleUpcomingHackathons();
       renderHackathons(sample, list);
       if (empty) empty.hidden = true;
@@ -51,8 +51,14 @@
   }
 
   function renderHackathons(hackathons, container) {
-    container.innerHTML = hackathons.map(h => {
-      const banner = bannerHtml(h.banner_path, h.title);
+    container.innerHTML = hackathons.map((h, idx) => {
+      // Use assigned or themed banner
+      let bannerSrc = h.banner_path;
+      if (!bannerSrc) {
+        const fallbackBanners = ['images/banner-ai.jpg', 'images/banner-web3.jpg', 'images/banner-cloud.jpg'];
+        bannerSrc = fallbackBanners[idx % fallbackBanners.length];
+      }
+      const banner = bannerHtml(bannerSrc, h.title);
       const themeLabel = escapeHtml(h.theme || 'Open Innovation');
       const desc = escapeHtml((h.description || 'Join students from across the country to build impactful solutions and win prizes.').slice(0, 110));
       const startDate = formatDate(h.start_date || new Date().toISOString());
@@ -96,6 +102,7 @@
         id: 1,
         title: "HackSphere: AI & Machine Learning Challenge",
         theme: "Artificial Intelligence",
+        banner_path: "images/banner-ai.jpg",
         description: "Develop cutting-edge LLM agents, automated computer vision pipelines, and intelligent AI tools for modern workflows.",
         start_date: dateStr,
         max_team_size: 4,
@@ -105,6 +112,7 @@
         id: 2,
         title: "Web3 & Decentralized Future Sprint",
         theme: "Blockchain & Web3",
+        banner_path: "images/banner-web3.jpg",
         description: "Build robust smart contracts, decentralized identity protocols, and zero-knowledge verification dApps on modern rollups.",
         start_date: dateStr,
         max_team_size: 4,
@@ -114,6 +122,7 @@
         id: 3,
         title: "Cloud & DevOps Sustainable Cloudathon",
         theme: "Cloud Computing",
+        banner_path: "images/banner-cloud.jpg",
         description: "Architect resilient multi-region microservices, serverless event-driven systems, and automated CI/CD infrastructures.",
         start_date: dateStr,
         max_team_size: 4,

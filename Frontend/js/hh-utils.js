@@ -45,7 +45,13 @@ function parseDbDate(value) {
 }
 function formatDate(value) { const d = parseDbDate(value); return !d || isNaN(d) ? '-' : d.toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
 function toInputValue(value) { const d=parseDbDate(value); if(!d||isNaN(d)) return ''; const p=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; }
-function bannerHtml(path, title) { return path ? `<img class="banner" src="${API_URL}/${escapeHtml(path)}" alt="${escapeHtml(title)}">` : '<div class="banner banner-placeholder"></div>'; }
+function bannerHtml(path, title) {
+  if (path) {
+    const src = path.startsWith('images/') ? path : `${API_URL}/${escapeHtml(path)}`;
+    return `<img class="banner" src="${src}" alt="${escapeHtml(title)}" onerror="this.onerror=null;this.src='images/banner-ai.jpg';">`;
+  }
+  return '<img class="banner" src="images/banner-ai.jpg" alt="' + escapeHtml(title) + '">';
+}
 function statusBadge(status) { const label=String(status||'').charAt(0).toUpperCase()+String(status||'').slice(1); return `<span class="badge badge-${escapeHtml(status)}">${escapeHtml(label)}</span>`; }
 function showToast(message, type='success') { let box=document.getElementById('toast-box'); if(!box){box=document.createElement('div');box.id='toast-box';document.body.appendChild(box);} const toast=document.createElement('div');toast.className='toast '+type;toast.textContent=message;box.appendChild(toast);setTimeout(()=>toast.remove(),3500); }
 
