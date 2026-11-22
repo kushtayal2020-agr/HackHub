@@ -4,6 +4,7 @@ const db = require('../database/db');
 const { logAction, ACTIONS } = require('../utils/audit');
 
 const STATUS_SQL = `(CASE
+  WHEN h.results_published = 1 THEN 'completed'
   WHEN NOW() < h.start_date THEN 'upcoming'
   WHEN NOW() <= h.end_date THEN 'live'
   ELSE 'completed'
