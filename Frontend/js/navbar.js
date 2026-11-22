@@ -174,7 +174,7 @@
               ${ICONS.brand}
               <span>HackHub</span>
             </div>
-            <p>Enterprise-grade hackathon management and developer innovation platform. Host transparent competitions, manage real-time judging rubrics, and issue verifiable digital credentials.</p>
+            <p>HackHub is a hackathon and event management platform. Discover competitions, collaborate with teams, evaluate submissions with transparent rubrics, and issue verifiable certificates.</p>
             <div class="footer-status-pill">
               <span class="badge-dot" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; margin-right:6px;"></span>
               All Systems Operational

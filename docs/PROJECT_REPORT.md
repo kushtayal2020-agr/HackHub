@@ -9,7 +9,7 @@
 ## 1. Executive Summary & Abstract
 Collegiate hackathons and Developer Innovation exhibitions are critical catalysts for student software innovation, collaboration, and technical skill development. However, managing these events typically relies on disparate spreadsheets, fragmented Google Forms, ad-hoc chat channels, and manual grading sheets. This manual approach introduces high administrative friction, scoring discrepancies, registration chaos, and delayed results.
 
-**HackHub** is an enterprise-grade, full-stack web application purpose-built to streamline the end-to-end hackathon lifecycle. Engineered with a pure HTML5/CSS3/Vanilla JavaScript frontend and a high-performance Node.js/Express/MySQL backend, HackHub delivers:
+**HackHub** is a production-ready, full-stack web application purpose-built to streamline the end-to-end hackathon lifecycle. Engineered with a pure HTML5/CSS3/Vanilla JavaScript frontend and a high-performance Node.js/Express/MySQL backend, HackHub delivers:
 - **Role-Based Access Control (RBAC):** Distinct workflows for System Administrators, Hackathon Organisers, Panel Judges, and Student Participants.
 - **Dynamic Team Collaboration:** Real-time team roster management with unique 6-character cryptographic invite codes.
 - **Contactless On-Site Attendance:** Automated QR-code pass generation and organiser terminal check-in scanning.

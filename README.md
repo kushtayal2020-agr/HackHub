@@ -45,7 +45,7 @@ HackHub/
 │   ├── 404.html             # Error page
 │   └── config.js            # Frontend API URL configuration
 ├── docs/                    # Architecture diagrams, test cases, Postman collection & report
-│   ├── PROJECT_REPORT.md    # Comprehensive Enterprise Engineering project report
+│   ├── PROJECT_REPORT.md    # Comprehensive project architecture and engineering report
 │   ├── API_DOCUMENTATION.md # REST API endpoint specifications
 │   ├── TEST_CASES.md        # Full verification & test matrix
 │   ├── DEPLOYMENT_GUIDE.md  # Production PM2, Nginx & Docker deployment guide

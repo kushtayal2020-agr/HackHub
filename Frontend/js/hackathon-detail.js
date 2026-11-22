@@ -66,12 +66,53 @@ async function renderActionBar(h) {
   const user = getUser();
   const token = getToken();
 
+  const isCompleted = h.status === 'completed' || h.results_published === 1;
+  const now = new Date();
+  const regStart = new Date(h.registration_start);
+  const regEnd = new Date(h.registration_end);
+  const regOpen = !isCompleted && now >= regStart && now <= regEnd;
+
+  // Case 1: Unauthenticated Guest
   if (!token || !user) {
+    if (isCompleted) {
+      actionBar.innerHTML = `
+        <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span class="badge badge-completed">Event Concluded</span>
+              <b style="font-size:16px;">This Hackathon Has Ended</b>
+            </div>
+            <p class="muted" style="margin:0; font-size:13px;">Registrations are closed and official results have been published.</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">View Leaderboard</a>
+            <a href="hackathons.html" class="btn btn-secondary btn-sm">Browse Other Hackathons</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    if (!regOpen) {
+      actionBar.innerHTML = `
+        <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <b style="font-size:15px; display:block; margin-bottom:2px;">Registration is Currently Closed</b>
+            <p class="muted" style="margin:0; font-size:13px;">Registration for this event is not open. You can explore active events below.</p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <a href="hackathons.html" class="btn btn-primary btn-sm">Browse Hackathons</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
     actionBar.innerHTML = `
       <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div>
-          <b style="font-size:15px; display:block; margin-bottom:2px;">Interested in competing?</b>
-          <p class="muted" style="margin:0; font-size:13px;">Sign in or create a student account to form teams and submit projects.</p>
+          <b style="font-size:15px; display:block; margin-bottom:2px;">Registration is Open</b>
+          <p class="muted" style="margin:0; font-size:13px;">Sign in or create an account to form teams and submit projects.</p>
         </div>
         <div style="display:flex; gap:8px;">
           <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
@@ -82,43 +123,97 @@ async function renderActionBar(h) {
     return;
   }
 
+  // Case 2: Participant
   if (user.role === 'participant') {
     try {
       const data = await apiFetch(`/api/hackathons/${h.id}/my-team`).catch(() => ({ team: null }));
+      
       if (data && data.team) {
-        actionBar.innerHTML = `
-          <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-            <div>
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                <span class="badge badge-success">Registered in Team</span>
-                <b style="font-size:16px;">${escapeHtml(data.team.name)}</b>
+        if (isCompleted) {
+          actionBar.innerHTML = `
+            <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                  <span class="badge badge-completed">Event Concluded</span>
+                  <b style="font-size:16px;">${escapeHtml(data.team.name)}</b>
+                </div>
+                <p class="muted" style="margin:0; font-size:13px;">
+                  Official evaluations are finalized and results are published.
+                </p>
               </div>
-              <p class="muted" style="margin:0; font-size:13px;">
-                Invite Code: <code style="font-weight:700; color:var(--brand-primary);">${escapeHtml(data.team.invite_code)}</code> &bull; Roster: ${data.members.length}/${data.team.max_team_size || 4} members
-              </p>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Leaderboard &amp; Results</a>
+                <a href="certificate.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm" style="background:#fef3c7; color:#b45309; border-color:#f59e0b;">View Certificate</a>
+                <a href="team.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm">Team Roster</a>
+              </div>
             </div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <a href="team.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Manage Team</a>
-              <a href="checkin.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm">Check-in Pass (QR)</a>
-              <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-outline btn-sm">Leaderboard</a>
+          `;
+        } else {
+          actionBar.innerHTML = `
+            <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                  <span class="badge badge-success">Registered in Team</span>
+                  <b style="font-size:16px;">${escapeHtml(data.team.name)}</b>
+                </div>
+                <p class="muted" style="margin:0; font-size:13px;">
+                  Invite Code: <code style="font-weight:700; color:var(--brand-primary);">${escapeHtml(data.team.invite_code)}</code> &bull; Roster: ${data.members.length}/${data.team.max_team_size || 4} members
+                </p>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <a href="team.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Manage Team</a>
+                <a href="checkin.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm">Check-in Pass (QR)</a>
+                <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-outline btn-sm">Leaderboard</a>
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        }
       } else {
-        actionBar.innerHTML = `
-          <div style="background:var(--brand-primary-subtle); border:1px solid #bfdbfe; padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-            <div>
-              <b style="font-size:16px; color:var(--brand-primary); display:block; margin-bottom:2px;">Registration is Live!</b>
-              <p class="muted" style="margin:0; font-size:13px;">Create a new team as Team Leader, or enter a teammate's invite code to join.</p>
+        if (isCompleted) {
+          actionBar.innerHTML = `
+            <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                  <span class="badge badge-completed">Event Concluded</span>
+                  <b style="font-size:16px;">Hackathon Ended</b>
+                </div>
+                <p class="muted" style="margin:0; font-size:13px;">Registrations and submissions are closed. Official rankings are available on the leaderboard.</p>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">View Final Leaderboard</a>
+                <a href="hackathons.html" class="btn btn-secondary btn-sm">Browse Other Events</a>
+              </div>
             </div>
-            <div style="display:flex; gap:8px;">
-              <a href="team.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">
-                Register / Form Team
-              </a>
-              <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-outline btn-sm">Leaderboard</a>
+          `;
+        } else if (!regOpen) {
+          actionBar.innerHTML = `
+            <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <b style="font-size:15px; display:block; margin-bottom:2px;">Registration is Closed</b>
+                <p class="muted" style="margin:0; font-size:13px;">The registration deadline for this hackathon has passed.</p>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <a href="hackathons.html" class="btn btn-primary btn-sm">Explore Active Events</a>
+                <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm">Leaderboard</a>
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        } else {
+          actionBar.innerHTML = `
+            <div style="background:var(--brand-primary-subtle); border:1px solid #bfdbfe; padding:18px 22px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <b style="font-size:16px; color:var(--brand-primary); display:block; margin-bottom:2px;">Registration is Open!</b>
+                <p class="muted" style="margin:0; font-size:13px;">Create a new team as Team Leader, or enter a teammate's invite code to join.</p>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <a href="team.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">
+                  Register / Form Team
+                </a>
+                <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-outline btn-sm">Leaderboard</a>
+              </div>
+            </div>
+          `;
+        }
       }
     } catch (e) {
       // fallback
@@ -126,34 +221,36 @@ async function renderActionBar(h) {
     return;
   }
 
+  // Case 3: Judge
   if (user.role === 'judge') {
     actionBar.innerHTML = `
       <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:16px 20px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div>
           <b style="font-size:15px; display:block; margin-bottom:2px;">Judge Evaluation Studio</b>
-          <p class="muted" style="margin:0; font-size:13px;">Review and evaluate submitted projects using official weighted rubrics.</p>
+          <p class="muted" style="margin:0; font-size:13px;">${isCompleted ? 'Evaluations are completed and official rankings are published.' : 'Review and evaluate submitted projects using official weighted rubrics.'}</p>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <a href="judging.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Score Submissions</a>
-          <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm">Leaderboard</a>
+          <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Leaderboard</a>
+          ${!isCompleted ? `<a href="judging.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm">Score Submissions</a>` : ''}
         </div>
       </div>
     `;
     return;
   }
 
+  // Case 4: Organiser or Admin
   if (user.role === 'organiser' || user.role === 'admin') {
     actionBar.innerHTML = `
       <div style="background:var(--bg-subtle); border:1px solid var(--border-color); padding:16px 20px; border-radius:var(--radius-md); margin: 20px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
         <div>
           <b style="font-size:15px; display:block; margin-bottom:2px;">Organiser Management Tools</b>
-          <p class="muted" style="margin:0; font-size:13px;">Manage participant check-in attendance, review submissions, and publish results.</p>
+          <p class="muted" style="margin:0; font-size:13px;">${isCompleted ? 'Hackathon concluded. Official results are published.' : 'Manage participant check-in attendance, review submissions, and publish results.'}</p>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <a href="checkin.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Check-in Terminal</a>
+          <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-primary btn-sm">Leaderboard</a>
           <a href="hackathon-submissions.html?id=${h.id}" class="btn btn-secondary btn-sm">Submissions</a>
-          <a href="leaderboard.html?hackathonId=${h.id}" class="btn btn-outline btn-sm">Leaderboard</a>
-          ${isOwner(h) ? `<a href="create-hackathon.html?id=${h.id}" class="btn btn-secondary btn-sm">Edit Hackathon</a>` : ''}
+          <a href="checkin.html?hackathonId=${h.id}" class="btn btn-secondary btn-sm">Check-in Terminal</a>
+          ${isOwner(h) ? `<a href="create-hackathon.html?id=${h.id}" class="btn btn-secondary btn-sm">Edit Details</a>` : ''}
         </div>
       </div>
     `;
